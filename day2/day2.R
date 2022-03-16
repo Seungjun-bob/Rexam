@@ -1,4 +1,4 @@
-# R 공부를 열심히 하자(day2)
+# Vector 실습
 v1 <- 10:14
 v2 <- c(5,3,1,10,4)
 print(v1)
@@ -66,7 +66,7 @@ summary(x)
 
 
 x[c(2,4)] # x[2,4] 오류발생, x[4], x[c(4)]
-x[c(F,T,F,T,F)] # x[c(T,F)] x[c(T)], x[c(F)], x[T], T[F]
+x[c(F,T,F,T,F)] # x[c(T,F)] x[c(T)], x[c(F)], x[T], x[F]
 x > 10
 x[x > 10] # x변수에 할당된 백터에서 원소값이 5보다 큰 원소값만을 추출
 x[x > 10 & x < 15] # x[x > 10 && x < 15] 
@@ -135,6 +135,7 @@ paste(fruit, food, sep="", collapse="-")
 paste(fruit, food, sep="", collapse="")
 paste(fruit, food, collapse=",")
 
+#--------------------------------------------------------
 
 # matrix 실습
 x1 <-matrix(1:8, nrow = 2) # ncol 매개변수의 값을 생략
@@ -150,8 +151,8 @@ x2
 chars <- letters[1:10]; print(chars)
 (chars <- letters[1:10])
 
-mat1 <-matrix(chars)
-mat1; dim(mat1)
+mat1 <-matrix(chars) 
+mat1; dim(mat1) # dim???
 matrix(chars, nrow=1)
 matrix(chars, nrow=5)
 matrix(chars, nrow=5, byrow=T)
@@ -180,24 +181,26 @@ mat1[2,];mat1[,3]
 mat1[1,1,drop=F]
 mat1[2,,drop=F];mat1[,3,drop=F]
 
-rownames(mat1) <- NULL
-colnames(mat2) <- NULL
+rownames(mat1) <- NULL # 행 이름 삭제
+colnames(mat2) <- NULL # 열 이름 삭제
 mat1;mat2
 rownames(mat1) <- c("row1","row2","row3")
 colnames(mat1) <- c("col1","col2","col3")
 mat1
 ls()
+x2;
 mean(x2)
 sum(x2)
 min(x2)
 max(x2)
-summary(x2)
-summary(t(x2))
+summary(x2) # 열단위 결과(col)
+summary(t(x2)) # 전치행렬 / 행단위 결과(row) 
 
 mean(x2[2,])
 sum(x2[2,])
 rowSums(x2); colSums(x2)
 
+# 1 -> row(행) / 2-> col(열)
 apply(x2, 1, sum); apply(x2, 2, sum)  
 ?apply
 apply(x2, 1, max)
@@ -208,6 +211,8 @@ apply(x2, 2, max)
 apply(x2, 2, min)
 apply(x2, 2, mean)
 
+# -------------------------------------------------------
+
 #Array 실습
 a1 <- array(1:30, dim=c(2,3,5)) # 3차원
 a1
@@ -217,6 +222,7 @@ a1[,,3]
 a1[,2,]
 a1[1,,]
 a1 * 100
+
 
 # factor 실습
 

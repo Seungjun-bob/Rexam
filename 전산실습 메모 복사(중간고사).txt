@@ -1,0 +1,1174 @@
+<1장 : R에서 대해 다루기>
+1.3 R의 실행
+
+1.3.1 데이터입력
+
+②데이터 입력
+old=c(78.5,60.3,81.7,69.0,64.0,62.6,86.7)
+new=c(82.0,74.9,88.1,62.1,78.5,79.9,94.4)
+old #입력한 데이터 확인
+new
+
+데이터 입력함수 :c()
+R에서 사용하는 모든 명령문은 내장함수 또는 사용자정의 함수이다.
+<- or =기호로 명령
+
+③함수생성
+rate=(new-old)/old*100 #변동률 rate 함수 생성
+rate
+
+④기술통계량 계산에 관련된 함수
+summary() : 최소, 최대, 평균, 중앙값, 제1사분위수, 제3사분위수 값 계산
+mean() : 평균
+var() : 분산
+median() : 중앙값
+sd() : 표준편차
+
+mean(old)
+var(old)
+median(old)
+sd(old)
+summary(old)
+
+④★회귀분석 수행(모르니까 잘보기!!)
+lm(A~B) : 선형모델(linear model)의 약자, lm(종속변수(결과) ~ 독립변수(원인))
+
+exreg=lm(new~old) #종속변수 new, 독립변수 old
+summary(exreg)
+
+⑤두 변수에 대한 산점도 작성
+plot() : 데이터에 대한 산점도 작성
+abline() : 직선으로 그려지는 데이터 그래프에 입력
+
+plot(old,new) 
+abline(exreg)
+
+⑥객체지향
+exreg
+exreg$coefficients #coefficients : 상관계수
+exreg$residuals #residuals : 잔차 = 실제값-예측값(기댓값, 적합값) 
+
+⑦행렬계산
+mt=matrix(c(1,2,3,7,8,9),3)
+mt #만들어진 행렬확인
+tr.mt=t(mt) #t() : 만들어진 행렬의 전치
+tr.mt
+gop.mt=tr.mt%*%mt #%*% : 행렬곱
+gop.mt
+solve(gop.mt) #solve() : 역행렬
+
+⑧★함수작성 > 노트참고 / 오류노출 Error in +tx = t(x) : 객체 'tx'를 찾을 수 없습니다, 물어보기
+invtxx=function(x){
++tx=t(x)
++txx=tx%*%x
++inv.txx=solve(txx)
++return(inv.txx)}
+invtxx(mt)
+
+⑨★저장 방법 
+파일>파일 경로로 저장 / 작업공간 내용 복사하여 txt파일로 저장
+
+부분적인 내용 저장
+sink() 함수 이용
+경로지정 : (c:\\경로입력)
+
+예제
+old=c(78.5,60.3,81.7,69.0,64.0,62.6,86.7)
+setwd("C:\\Test") #파일 경로 지정, 불러오기 경로 지정은 getwd()함수 사용
+sink("consoleoutput.txt")
+mean(old)
+var(old)
+sink()
+summary(old)
+
+그래프 저장
+그래프창에서 오른쪽 마우스 누르고 옵션 선택후 파일>클립보드에 복사 경로 통하여 저장
+
+★함수 입력 시 주의사항
+1. R에서는 영문 소문자와 대문자를 구분하여 입력
+2. 명령문이 완성되지 않은 상태에서 enter키 입력 시 >기호가 +기호로 변경
+3. # 기호 이후의 명령문은 무시(메모용으로 활용)
+
+mean(old)
+Mean(old)
+cor(new
+,old)
+sd(old) #old의 표준편차
+
+★저장경로 입력 시 주의사항
+Window에서의 경로 표시
+C:\Users\...
+
+R에서의 경로 표시
+C:/Users/...
+또는
+C:\\Users\\...
+
+1.3.2 작업공간
+
+작업공간 : R의 실행과정에서 생성되는 모든 객체 및 입력되는 명령문 등이 보관되는 가상의 공간
+작업 디렉토리(폴더)를 임시로 보관
+
+getwd() : 현재의 작업 디렉토리(경로)를 확인
+ls() : 영어 소문자 l, 작업공간에 임시 저장된 객체 리스트 확인
+rm() : 저장된 객체 삭제
+
+getwd()
+ls()
+rm(rate)
+ls() #rate 객체가 삭제되어있음
+
+작업공간을 파일 로 저장할 때
+1. 파일>작업공간 저장
+2. OR save.image()함수 사용
+3. q()로 R이 종료될 때 저장여부 선택
+
+작업 디렉토리 변경 시
+1. setwd(dir) 함수 이용하여 작업 디렉토리로 사용할 폴더를 미리 생성
+2. 파일>디렉토리 변경 경로 통해 변경
+
+1.3.3 스크립트 파일의 활용 (노트참고)
+함수 sourse()를 활용한 파일 출력
+
+★함수 sourse()의 활용방법
+source() : 스크립트 파일의 일괄 처리
+
+실행1. 함수 print()가 적용된 var(old)의 결과만 Console창에 출력
+setwd("C:\\Test")
+old=c(78.5,60.3,81.7,69.0,64.0,62.6,86.7)
+old
+mean(old)
+print(var(old))
+source("C:\\Test\\스크립트.r")
+
+실행2. 옵션 echo=TRUEfmf 추가함으로써 입력된 명령문 및 결과가 모두 출력
+
+
+source("C:\\Test\\스크립트.r",echo=TRUE)
+old=c(78.5,60.3,81.7,69.0,64.0,62.6,86.7)
+mean(old)
+print(sd(old))
+
+1.4 R의 확장 : 패키지
+
+패키지 : R함수, 데이터 및 컴파일 된 코드 등 사용자가 작성한 모듈 파일
+install.packages() 함수 사용하여 설치
+
+ex) UsingR 패키지 설치
+install.packages("UsingR")
+
+설치된 패키지 확인 : library()
+설치된 패키지 제거 : remove.package("패키지이름")
+
+library()
+library(lib=.Library) #기본 설정된 패키지
+remove.packages("ALS") #패키지 삭제
+
+패키지 불러오기(load)
+library(패키지 이름) OR require(패키지 이름)
+library(methods) #인용부호 없이 패키지 이름만을 지정
+(.packages())
+library(lattice)
+(.packages())
+
+<연습문제>
+
+speed=c(4,7,8,9,10,11,12,13,13,14)
+dist=c(2,4,16,10,18,17,24,34,26,26)
+
+1. speed와 dist의 평균, 분산, 최고치
+summary(speed)
+summary(dist)
+var(speed)
+var(dist)
+
+speed 평균 : 10.10 / 분산 : 9.877778 / 최고치 14.00
+dist 평균 : 17.7 / 분산 : 104.4556 / 최고치 34.0
+
+★2. speed의 5% 절사평균
+mean(speed, trim=0.05) #trim : 절사평균 값 구할 시 잘라낼 때 사용
+
+speed의 5% 절사평균 : 10.1
+
+3. x축: speed, y축: dist 산점도
+plot(speed,dist)
+
+4. 함수 xyplot을 이용한 산점도
+xyplot(dist~speed) #y축이 좌측에 와야함 xyplot(y~x)
+
+5. 문제 1,2,3,4의 결과를 담는 한글 파일을 만드시오 >> 전산실 가서 테스트
+setwd("C:/Test")
+sink("result.hwp")
+sink()
+
+6. 문제 1,2,3,4의 결과를 수행할 수 있는 파일을 생성, 저장하시고 수행하시오
+
+스크립트 저장 후 Crtl+R로 실행
+
+
+<2장 : R에서 데이터 준비하기>
+
+2.1 데이터의 구조
+
+통계 데이터의 유형
+>양적 데이터(숫자)
+>질적 데이터(범주)-명목형/순서형 데이터
+
+데이터 세트 : 데이터가 행/열의 2차원 형태로 배열된 상태
+열 : 변수를 지칭, 하나의 열에는 같은 유형의 데이터 만 존재 가능
+행 : 동일한 대상에 대한 여러 변수의 관찰값
+
+R데이터의 유형 : 문자형, 숫자형, 논리형...
+
+예제)
+y=c(1,5,7);mode(y);length(y) #mode = 데이터의 유형 표기 > 숫자형 데이터
+w=c("kim","choi","jung","park");mode(w) > 문자형
+z=c(T,F,F);mode(z) > 논리형
+
+u=y<6;u
+sum(u) #조건을 만족하는 데이터 갯수의 합
+h=(1+2i);h^2
+is.numeric(y) #y가 숫자형 데이터인가?
+
+★R데이터의 특수유형
+NULL : 값이 비어있는 상태, 길이x 데이터 유형x
+NA : 결측치 (Not available)
+NaN : 계산불능
+Inf,-Inf : 양의 무힌대, 음의 무한대
+
+예제)
+y=c();y #값이 없음
+mode(NULL);length(NULL) #데이터 유형, 데이터 길이 없음
+yc=c(12,52,NA,72,63)
+y:c #>????
+yc/2
+mode(NA);length(NA)
+sqrt(-3);log(-5)#sqrt : 제곱근
+mode(NaN);length(NaN)
+1/0;mode(Inf);length(Inf)
+
+데이터 유형 변환
+> 숫자형 문자형, 논리형 벡터
+
+변환의 우선순위 : 문자형>복소수형>수치형>논리형
+
+유형변환함수 : as.character(),as.numeric(),as.logical() 등의 as. 함수
+
+예제)
+F+3 #논리형, 수치형 => 수치형
+TRUE+(1+2i) #논리형, 복소수형 => 복소수형
+paste(TRUE,"is I") #논리형, 문자형 =>문자형
+paste(3,"is greater than I") #수치형, 문자형 => 문자형
+y=c(0,2,3,1,-1,0,6);as.logical(y)
+z=as.logical(y);as.numeric(z)
+as.character(y)
+
+★R 데이터 객체
+벡터 : 1차원 수/문/복/논 복수x
+요인 : 1차원 수/문 복수x
+행렬 : 2차원 수/문/복/논 복수x
+배열 : 2이상 수/문/복/논 복수x
+시계열 : 2차원 수/문/복/논 복수x
+데이터프레임 : 2차원 수/문/복/논 복수x
+리스트 : 수/문/복/논/함수/표현식/call등 복수o
+
+★2.1.1 벡터
+
+1차원으로 배열된 구조 > 숫자형, 논리형, 문자형 벡터
+
+벡터 생성함수 : c()
+
+x=c(1,3,5,-4,10)
+y=c("one","two","three")
+z=c(TRUE,TRUE,FALSE,FALSE,TRUE)
+
+벡터의 구성 요소는 모두 같은 유형의 데이터여야 함
+
+다른 유형의 데이터가 뒤섞여 입력된 경우
+c(1,"1","TRUE") #문자형 데이터가 하나라도 포함되면 문자형 벡타
+c(3,TRUE,FALSE) #논리형 숫자형 > 숫자형 (T=1, F=0)
+
+스칼라(상수) 입력
+a=1;a;b=c(2);b
+
+벡터의 인덱싱
+> 벡터의 일부분을 선택하는 작업, 대괄호[]를 사용
+
+x
+x[2] #두번째 벡터값
+x[c(1,3,5)] #벡터의 1,3,5번째 값
+x[c(TRUE,TRUE,FALSE,FALSE,TRUE)] #T에만 해당되는 값
+x[6]
+
+>>교재 연습문제
+
+문제 1.
+x=c(17,16,20,24,22,15,21,18)
+
+1) 벡터 x에 입력된 데이터 갯수?
+length(x)
+
+2) 벡터 x의 마지막 데이터 값을 출력
+x[length(x)]
+
+문제 2.
+y=c(10.4,5.6,3.1,6.4,9.6,7.8,12.1)
+
+1) 벡터 y에 입력된 데이터 갯수?
+length(y)
+
+2) 벡터 y에 입력된 데이터의 마지막에서 두 번째 데이터 값 출력
+y[length(y)-1]
+
+★2.1.2 요인
+범주형 데이터 만을 위한 구조
+> 벡터와 같은 1차원 배열, 요인이 취할 수 있는 값을 수준(level)이라고 함
+
+숫자형 or 문자형 벡터를 요인으로 변환
+>★명목형 요인 생성 : 함수 factor() 이용
+gender=c("Male","Female","Female","Male","Male")
+f.gender=factor(gender)
+gender
+f.gender #이때, 1=Female, 2=Male로 인식한다
+
+순서형 요인의 생성 : factor()에 옵션 order와 level 추가 하여 사용
+income=c("Low","Low","Medium","High","Medium")
+f.income=factor(income,order=TRUE) #알파벳 순으로 순서 나열 (옳은 순서가 아님) / 순서형 요인 생성 : order=TRUE
+f.income
+f.income=factor(income,order=TRUE,level=c("Low","Medium","High"))
+f.income #level 순서 조절 : 옵션 level에 순서를 지정
+
+문제 3.
+grade=c("1st","1st","2nd","3rd","2nd","3rd","1st")
+
+1)문자형 벡터 grade를 순서형 변수를 위한 요인으로 변환 (1nd>2nd>3rd)
+f.grade=factor(grade,order=TRUE,level=c("3rd","2nd","1st"))
+f.grade
+
+문제 4.
+sati=c("Good","Good","Fair","Poor","Fair","Good")
+
+1)문자형 벡터 sati를 순서형 변수를 위한 요인으로 변환시켜라. (Good>Fair>Poor)
+f.sati=factor(sati,order=TRUE,level=c("Poor","Fair","Good"))
+f.sati
+
+
+★2.1.3 행렬 및 배열
+행렬 : 2차원 배열
+배열 : 2차원 이상의 배열
+> 구성 요소는 같은 유형의 데이터여야 함
+
+★행렬의 생성 : 함수 matrix()
+
+matrix(data,nrow,ncol,byrow,dimnames) <행렬의 옵션
+data : 데이터 벡터
+nrow : 행의 수 지정
+ncol : 열의 수 지정, (nrow 또는 ncol 중 하나만 사용해도 됨
+byrow : 행 단위로 채워갈 것인지 (byrow=TRUE) 열 단위로 채워갈 것인지 (byrow=FALSE/디폴트) 결정
+dimnames : 행과 열에 라벨링
+
+예제
+
+x=matrix(1:9,nrow=3) #1:9 > 1~9까지의 정수, c(1,2,...,9)와 동일
+x #열단위로 채워지고 있음(기본값)
+y=matrix(1:9,nrow=3,byrow=TRUE) #행 단위로 채워짐
+y
+rnames=c("R1","R2","R3")
+cnames=c("C1","C2","C3")
+z=matrix(1:9,nrow=3,dimnames=list(rnames,cnames)) #행과 열에 라벨링
+z
+
+행렬의 인덱싱
+
+x[i,j] : 행렬 x의 i번째 행, j번째 열의 요소
+x[i,] : i번째 행의 모든 요소
+x[,j] : j번째 열의 모든 요소
+
+x[2,3]
+x[1,]
+x[,2]
+x[c(1,2),2] #2열의 1,2번 요소
+
+★배열의 생성 : 함수 array()
+
+array{data,dim,dimnames)
+data: 데이터 벡터
+dim : 배열의 차원 정의
+dimnames : 각 차원에 대한 라벨 설정
+
+y=array(1:24,c(4,3,2)) # 4*3행렬 2개 생성
+y
+
+배열의 인덱싱
+
+y[3,2,1] #첫번째 행렬 3번째 행 2번째 열
+y[,,1] #첫번째 행렬의 모든 요소
+y[1,,2] #두번째 행렬의 1번째 행 모든 요소
+
+★dim()을 이용한 행렬, 배열 생성
+지정된 객체에 대하여 차원을 참조하여 자료 구조를 변경한다
+데이터는 열 우선으로 채워진다
+dim 함수의 이용 방법 : dim(x); dim(x)=value
+
+x=1:12
+x
+dim(x)=c(3,4) #디멘션 함수 이용하여 1차원 벡터를 2차원 행렬로 구조 변경
+x
+dim(x)
+
+y=1:24
+dim(y)=c(3,4,2)
+y
+
+연습) 배열(x)의 행의 수?
+nrow(x)
+
+문제 5.
+rnames=c("var1","var2","var3")
+cnames=c("Case#1","Case#2","Case#3")
+X=matrix(c(12,21,32,17,22,34,19,25,35),nrow=3,dimnames=list(rnames,cnames))
+X
+
+1)행렬의 두번째 열을 다음과 같이 출력하라 (pg.66)
+X[1,]
+
+★2.1.4 데이터 프레임
+행렬과 같은 2차원 구조
+모든 열(변수)이 동일한 유형의 데이터일 필요 X 
+통계 데이터 세트에 가장 적합한 구조
+
+★데이터 프레임의 생성 : 함수 data.frame()
+data.frame(var1,var2,var3,...)
+var1,2,3 : 데이터 세트의 열벡터
+
+x1=c(24,28,31,25)
+y1=c("F","M","F","F")
+
+xy=data.frame(x1,y1)
+xy #벡터의 이름이 데이터 프레임의 열 라벨 이름 지정
+
+xy=data.frame(age=x1,gender=y1) #열 라벨 각 변수 이름 지정
+xy
+
+데이터 프레임의 인덱싱(변수 선택)
+[[]] 또는 []에 열의 인덱스 혹은 열 라벨을 입력
+[[]] : 한 변수의 선택 때에만 사용, 결과물 벡터
+[] : 하나 또는 그 이상의 변수 선택, 결과물 데이터 프레임
+
+x1=c(24,28,31,25)
+y1=c("F","M","F","F")
+z1=c(2000,3100,3800,2800)
+
+xyz=data.frame(age=x1,gender=y1,income=z1)
+xyz
+
+xyz[[1]] #결과 벡터값, 첫번째 열의 모든 요소만 추출, 별도 지정이 없을 경우 열이 기준!
+xyz[1] #데이터 프레임
+
+열 라벨을 입력함으로써 불러오기
+xyz[["age"]]
+xyz$age #xyz[["age"]]와 동일한 표현 / 데이터 프레임의 변수지정 : (데이터 프레임 이름$변수 이름)
+xyz["age"]
+
+두개 이상의 변수 지정
+xyz[c(1,3)] #또는 xyz[,c(1,3)), 열 인덱스 입력
+xyz[c("age","income")]
+
+행렬의 인덱싱 방법 이용
+xyz[,1] #벡터의 결과 도출 (1번째 열의 모든 요소)
+xyz[,c(1,3)] #결과가 데이터 프레임
+
+☆하나의 열을 선택하면 결과는 벡터가 되고 하나 이상의 열을 선택하면 결과가 데이터 프레임이 된다
+
+연습)관찰지의 일부만 석택
+"age","income"의 2,3번째 값
+xyz[c(2,3),c("age","income")]
+
+문제 6.
+var1=c(12,17,19)
+var2=c(21,22,25)
+var3=c(32,34,35)
+X=data.frame(var1,var2,var3)
+X
+
+1)데이터 프레임의 두번째 열을 다음과 같이 출력하라 (pg.67)
+X[1] #방법 1
+X["var1"] #방법 2
+
+★2.1.5 리스트
+가장 포괄적인 구조 : 구성요소 - 벡터, 배열, 데이터 프레임, 함수, 다른 리스트
+> 서로 다른 유형의 객체를 한데 묶은 또 다른 객체
+
+★리스트 생성 : list()
+list(object1,object2,object3,...)
+object1,2,3: 리스트로 묶고자 하는 객체들
+
+a=c("one","two","three")
+b=1:10
+c=matrix(1:9,nrow=3)
+d=data.frame(age=c(24,28,31,25),gender=c("F","M","F","M"))
+L=list(vec=a,b,mat=c,d) #vec, mat로 라벨링
+L
+
+리스트의 인덱싱(하부 구성요소 선택)
+
+L[[1]] #첫번째 데이터 선택
+L[["vec"]] #1번 데이터가 vec이므로 L[[1]]과 동일 결과값 인덱싱
+L$vec
+
+R에서의 활용 : 데이터를 간편하게 묶을 수 있음 , 많은 함수들의 수행 결과가 리스트의 형태로 출력, 원하는 결과를 인덱싱 기법으로 선택 후 사용
+
+★2.2 데이터 객체와 관련된 유용한 함수들
+
+객체의 대표적 속성 : type,mode,class
+type : 객체의 저장 형태 ; typeof()
+mode : type과 동일한 개념이나 일부 값에 있어 차이가 있다 mode()
+class : 객체의 일정 소속을 표시하는 속성 ; 명명, 생성, 확대 등이 가능 class()
+
+★2.2.1 객체의 모드와 속성
+객체의 모드 : 객체의 저장 형태
+모든 객체에는 모드가 있다
+숫자형(요소,벡터,행렬) : numeric 
+문자형(요소,벡터,행렬) : character
+요인 : numeric★(문자형이 아님 주의!)
+데이터 프레임 : list
+리스트 : list
+함수 : fuction
+
+객체의 모드 확인 함수 : mode()
+mode(matrix(1:9,nrow=3))
+mode(data.frame(x=1:2,y=c("M","F")))
+mode(plot)
+
+객체의 속성
+포괄적 함수 : 객체의 속성에 따라 처리하는 방법을 다르게 하는 함수 / summary(), plot()
+
+객체의 속성 확인 함수 : class()
+x=c(24,35,28,21)
+y=c("M","F","F","F")
+z=data.frame(x,y)
+class(x)
+class(y)
+class(z)
+
+함수 summary()의 적용결과
+
+summary(x) #숫자형 벡터의 요약
+summary(y) #문자형 벡터의 요약
+summary(z) #데이터 프레임의 요약 / Y : 문자형 F 3개, M 1개
+
+★2.2.2 데이터 객체의 구조에 대한 정보를 얻는 함수
+객체의 구조에 대한 정보를 얻을 수 있음
+
+length() : 객체를 구성하고 있는 요소들의 개수
+dim() : 객체의 차원
+names() : 객체 구성요소들의 이름
+str() : 객체의 구조 (structure)
+head() : 객체의 처음 부분
+tail() : 객체의 마지막 부분
+
+#uspop : 미국 인구수(백만 명 단위), 1790년~1970년(R 기본 설치 데이터)
+mode(uspop)
+class(uspop) #time series(시계열)
+str(uspop)
+length(uspop)
+head(uspop)
+tail(uspop)
+
+#airquality : 미국 뉴욕시의 공기의 질과 관련된 변수들의 측정값, 1973년 5월~9월
+mode(airquality)
+class(airquality)
+str(airquality) #int(=integer) #num(=real number)
+length(airquality)
+dim(airquality)
+names(airquality)
+head(airquality,n=3) #앞의 3개 데이터
+tail(airquality,n=3)
+
+문제 7.
+library() #base 패키지 설치되어있음 확인
+데이터 패키지 datasets에 데이터 프레임 iris가 있을 때,
+
+1)iris를 구성하고 있는 변수와 관찰값의 개수 확인
+str(iris) #변수 갯수 5, 관찰값의 개수 150
+
+2)변수의 이름 확인하기
+names(iris)
+
+3)데이터 프레임 iris의 처음 3줄 출력하기
+head(iris,n=3)
+
+문제 8.
+데이터 패키지 datasets에 데이터 프레임 trees가 있을 때,
+
+1)trees를 구성하고 있는 변수와 관찰값의 개수 확인
+str(trees) #변수 개수 3, 관찰값 개수 31
+
+2)변수의 이름 확인
+names(trees)
+
+3)데이터 프레임 trees의 마지막 3줄 출력
+tail(trees,n=3)
+
+
+★2.2.3 데이터 프레임을 조금 더 편하게 사용하기 위한 함수
+데이터 프레임 : 가장 빈번하게 사용되는 데이터 객체
+데이터 프레임에서 변수 선택 방법 : (데이터 프레임 이름)$(변수 이름)
+>가장 많이 사용되나, 변수를 선택할때마다 데이터 프레임의 이름을 함께 입력해야 되는 불편함이 존재
+
+보안하기 위한 함수 : with(), attach(), detach()
+
+함수 with()
+기본적인 사용법 with(데이터 프레임 이름, R명령문)
+> R 명령문에서는 $ 기호 없이 변수를 사용할 수 있음
+
+데이터 프레임 airquality의 변수 Temp의 표준화 과정
+
+z.Temp=(Temp-mean(Temp))/sd(Temp) #정규분포
+
+z.Temp=(airquality$Temp-mean(airquality$Temp))/sd(airquality$Temp)
+z.Temp=with(airquality,(Temp-mean(Temp))/sd(Temp))
+summary(z.Temp)
+
+함수 attach()
+여러줄의 명령문에서 데이터 프레임의 변수를 사용하고자 하는 경우 with()보다 더욱 편리함
+
+attach(airquality)
+mean(Temp);mean(Wind)
+sd(Temp);sd(Wind)
+
+detach(airquality) #변수 뗌
+mean(Temp)
+
+★함수 attach() 사용 시 주의할 점
+①작업공간에 있는 다른 객체의 이름이 데이터 프레임의 변수 이름과 같을 때
+attach(airquality)
+plot(Temp,Wind)
+Temp=c(77,65,89,80)
+plot(Temp,Wind) #나중에 생성된 객체에 우선권이 주어진다
+
+length(Wind)
+Temp #현재 Temp는 airquality의 변수 Temp가 아님
+
+detach(airquality)
+
+②데이터 프레임을 불러오기 전 이미 중복된 이름의 객체가 있는 경우
+
+ls() #작업 공간에 있는 객체 확인
+attach(airquality)
+
+Temp #작업 공간에 임시 저장된 객체에 우선권이 있음
+
+mean(airquality$Temp)
+
+rm(Temp) #임시 저장된 객체 삭제
+mean(Temp) #R이 airquality의 변수 Temp 발견
+
+③함수 attach()로 R이 불러온 것은 데이터 프레임의 임시 복사본이다.
+
+xyz
+attach(xyz)
+income
+xyz$income=c(2500,3600,4100,3000) #원본의 수정
+
+xyz
+income #attach()로 불려진 내용은 수정 이전의 내용(복사본은 수정되지 않음)
+
+detach(xyz)
+attach(xyz) #수정된 내용으로 재복사
+income
+
+④attach()로 불려진 데이터 프레임의 변수
+>독립된 객체처럼 사용하는 것은 가능하나, ③에서 확인한 내용처럼 수정 시 $기호 사용하여 수정해야함
+
+xyz #attach() 적용상태
+age
+age=age+3
+ls()
+xyz$age #수정적용
+age
+
+2.3 데이터의 입력
+
+2.3.1 자판에서 데이터 직접 입력
+소규모의 데이터를 직접 입력해야 하는 경우
+> 함수 c(), scan(), edit()에 의한 입력
+
+①함수 c()에 의한 입력
+
+벡터의 입력
+x=c(24,35,28,21)
+
+행렬의 입력
+matrix(c(2,3,4,5),nrow=2)
+
+②함수 scan()에 의한 입력
+
+R console창에서 직접 입력
+데이터 원소 구분 : 공백(default) or enter
+자료 입력을 종료할 경우 enter*2 또는 ctrl+z
+
+옵션 : what=default > 수치형 
+      what="" > 문자형
+
+x=scan()
+x
+y=scan(what="character")
+y
+y=scan()
+y
+
+행렬 입력
+z=matrix(scan(),nrow=2)
+z
+
+③함수 data.entry()에 의한 입력
+자료 편집기 창을 이용한 입력
+> R의 자료 편집기는 원시적인 기능만을 갖고있어 기존을의 데이터를 수정하는 것이 본래의 목적
+
+xyz=data.frame() #빈 데이터 프레임 생성
+xyz=edit(xyz) #데이터 편집기 노출
+> 변수 이름과 데이터 유형 수정
+xyz
+
+data.entry(객체명)
+자료 에디터에 기존에 정의된 값이 나타난다.
+자료 추가, 수정 후 자료 에디터 창을 닫는다.
+data.entry(xyz)
+
+★2.3.2 외부 파일에서 데이터 불러오기 : 내장된 데이터 읽기
+
+사용가능한 데이터셋 목록 출력 : data()
+
+데이터 로드
+data(Orange) #Orange가 데이터로 load됨
+> 사용가능한 데이터셋 목록에 데이터가 있을 경우 자동 load됨
+
+①load되지 않은 특정 패키지 안에 소속된 데이터
+> 해당 패키지를 load한 후 그 안에 내장된 데이터 읽기
+
+names(barley) 
+library(lattice) #패키지 lattice안의 barley 데이터 불러오기
+data()
+names(barley)
+class(barley)
+
+②패키지를 load하지 않고 패키지 안의 특정 데이터만 load
+data(Wages,package="Ecdat") >????????
+
+③함수 scan()으로 한 변수의 관찰값 불러오기
+
+x=scan("C:/Temp/Data/data1.txt")
+x
+
+④함수 scan()으로 데이터 프레임,list 읽기
+옵션 what=사용
+데이터 유형 지정("","","") : 변수 개수 만큼 ""로 구분
+> what=data.frame("","","") / what=list("","","")
+
+y=scan("C:/Temp/Data/data1_1.txt",what=data.frame("","",""))
+y
+
+④함수 read.table()로 2차원 형태의 데이터 파일 불러오기
+xyz=read.table("C:/Temp/Data/data2_1.txt")
+xyz
+
+외부 파일 첫줄에 변수 이름이 있는 경우
+xyz=read.table("C:/Temp/Data/data2_2.txt",header=TRUE) #첫줄의 데이터 이름 load
+xyz
+
+※외부 파일에 코멘트를 삽입할 수 있다. 외부 파일에 각 변수에 대한 설명들을 #기호로 추가
+
+예제 데이터
+xyz=read.table("C:/Temp/Data/data2_3.txt",header=TRUE)
+
+입력된 문자형 변수는 요인으로 인식 > 이것을 요인이 아닌 문자형 변수로 인식하도록 변경 (옵션 stringsAsFactor)
+
+class(xyz$gender)
+xyz$gender
+
+xyz=read.table("C:/Temp/Data/data2_3.txt",header=TRUE,stringsAsFactor=FALSE)
+class(xyz$gender)
+xyz$gender
+
+R에서는 NA를 결측값 기호로 사용하지만 SAS에서는 마침표(.)가 결측값으로 사용됨
+> 결측값으로 사용된 다른 기호를 받아들이는 방법 (na.string="." / ""안의 기호를 결측값으로 인식)
+
+xyz=read.table("C:/Temp/Data/data2_4.txt",header=TRUE,na.string=".")
+xyz
+
+데이퍼 파일에서 각 관찰값들이 빈칸으로 구분되어있지 않고 다른 기호로 구분되어 있는 경우
+ex)예를 들어 콤마(,)로 구분된 경우 (옵션 sep() : 구분되어있는 객체 연결)
+
+xyz=read.table("C:/Temp/Data/data3.txt",header=TRUE,sep=",") 
+xyz
+
+⑤함수 read.csv()로 2차원 형태의 파일 불러오기 (csv : comma separated value)
+관찰값 구분이 "," 또는 Tab으로 표시된 텍스트 파일
+read.csv()와 read.table()은 본질적으로 다른 함수이며 차이점은 read.csv 함수는 header=T가 디폴트값
+
+xyz=read.csv("C:/Temp/Data/data3.txt")
+xyz
+
+⑥함수 read.fwf()로 고정된 열 구조를 갖는 2차원 형태의 데이터 파일 불러오기
+열 구조가 고정된 파일
+관찰값들이 빈칸이나 콤마로 구분되어있지x, 따라서 read.csv 또는 table로 불러올 수 x
+
+옵션 widths=:열 변수의 길이 지정
+col.names:열 변수에 라벨링
+
+xyz=read.fwf("C:/Temp/Data/data4.txt",widths=c(2,1,4))
+xyz
+
+xyz=read.fwf("C:/Temp/Data/data4.txt",widths=c(2,1,4),
+col.names=c("age","gender","income"))
+xyz
+
+※유용한 정보 
+외부 데이터 파일이 저장되어 있는 폴더의 정확한 경로를 잊은 경우
+옵션 file.choose()를 데이터 파일의 경로 대신 사용한다
+
+read.table(file.choose())
+
+★2.3.3 외부 파일에서 데이터 불러오기 2 : Eecel 파일
+
+excel 스프레드시트 : 데이터의 생성 및 가공이 용이하다, 다만 R에서 직접 불러오는 것은 불안전
+>CSV파일로 전환 하여 불러오는 것이 안전, excel 파일을 csv형식으로 재저장
+
+전환한 data5.csv파일 불러오기
+
+read.csv("C:/Temp/Data/data5.csv")
+
+R에서 직접 불러오기 : read.xlsx()
+
+install.packages("xlsx") #외부 패키지임
+library(xlsx) >> 전산실 가서 재테스트
+
+xyz=read.xlsx("C:/Temp/Data/data5.xlsx",1) #1은 워크시트 번호
+
+2.3.4 외부 파일에서 데이터 불러오기 3 : SAS 파일
+>> SAS 안배웠으므로 생략
+
+★2.3.5 웹에서 데이터 불러오기
+웹에 있는 엄청난 데이터 직접 R로 불러오기
+> 두가지 형태
+1. 웹 서버에 저장된 데이터 파일(안정적)
+2. HTML 테이블 (여러 단계의 처리가 필요
+
+웹 서버에 저장된 데이터 파일 불러오기
+함수 read.table(),read.csv(),scan() 등에 데이터의 주소 URL을 지정함으로써 불러오기
+
+예제 사이트 주소 http://archive.ics.edu/ml
+
+URL="http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data" #iris 데이터 파일의 주소
+
+iris.data=read.csv(URL,header=FALSE)
+head(iris.data,n=3)
+
+iris.data=read.csv(URL,header=FALSE,col.names=c("S.length","S.width","P.length","P.width","Species"))
+head(iris.data,n=3)
+
+
+★2.4 데이터 출력하기
+
+분석 결과를 외부 파일로 저장
+함수 sink() : 한계존재
+함수 cat()
+
+데이터 객체를 텍스트 파일로 저장
+함수 write.table()의 이용
+
+데이터 객체를 Excel 파일로 저장
+패키지 xlsx의 함수 write.xlsx()의 이용
+
+★2.4.1 분석 결과를 외부 파일로 저장
+함수 cat()과 print()의 기본 기능 : 객체에 할당된 값을 화면에 나타내는 것
+
+함수 print()의 한계 : 한 번에 한 객체만 출력 가능
+
+pi #=print(pi)
+print(pi)
+print("원주율은",pi,"이다") #한계
+cat("원주율은",pi,"이다","\n") #\n : 줄바꿈
+
+함수 cat()의 한계 : 벡터만 출력 가능하다
+
+y=matrix(1:4,nrow=2)
+print(y)
+cat(y,"\n") #벡터로 자동 변형
+
+함수 cat()으로 작업결과 외부 파일로 변환 후 저장 (옵션 file)
+
+매번 파일 이름을 지정하는 방법
+
+x=c(24,28,31,25)
+m.x=mean(x);s.x=sd(x)
+cat("Data:",x,"\n",file="C:/Temp/Output/out1.txt")
+cat("Mean value is",m.x,"\n",file="C:/Temp/Output/out1.txt",append=TRUE)
+cat("Standard deviation is",m.x,"\n",file="C:/Temp/Output/out1.txt",append=TRUE)
+
+옵션 append는 이어쓰기 또는 덮어쓰기 
+append=TRUE : 이어쓰기
+append=FALSE : 덮어쓰기 (디폴드값)
+
+특정 파일로의 연결(connection)을 제공하는 방법 > 번거롭게 일일히 경로 안써도 됨, close할 때까지 자동 이어쓰기
+
+out=file("C:/Temp/Output/out2.txt","w") #"w" : write in text mode
+cat("Data:",x,"\n",file=out)
+cat("Mean value is",m.x,"\n",file=out)
+cat("Standard deviation is",m.x,"\n",file=out)
+close(out)
+
+★2.4.2 데이터 객체를 텍스트 파일로 저장
+함수 write.table() : 추가되는 옵션에 따라 저장되는 형태에 차이 발생
+
+예제 데이터 프레임 women
+head(women)
+
+write.table(women,"C:/Temp/Output/out3_1.txt")
+write.table(women,"C:/Temp/Output/out3_2.txt",quote=FALSE) #quote : 변수 이름의 "" 생략
+write.table(women,"C:/Temp/Output/out3_3.txt",quote=FALSE,row.names=FALSE) # 열 이름 생략
+write.table(women,"C:/Temp/Output/out3_4.txt",quote=FALSE,row.names=FALSE,sep=",")
+
+write.table()이용하여 csv 파일로 저장
+
+x=c(1,2,3)
+y=c(4,5,6)
+xy=cbind(x,y) #cbind : 함수의 열 결합
+xy
+write.table(xy,"c:/Temp/Output/xy.csv",sep=",",row.names=FALSE)
+
+문제 9.
+URL="http://lib.stat.cmu.edu/datasets/fl2000.txt"
+
+1) 데이터 세트 fl2000.txt를 R로 불러와서 데이터 프레임 fl2000에 할당한 후 데이터 프레임 fl2000의 변수와 관찰값 개수 확인
+fl2000=read.table(URL,header=TRUE)
+str(fl2000) # 111개의 관찰값과 2개의 변수
+
+2) 첫번째, 여섯 번째, 일곱번째 변수의 이름 확인 >>?? 변수가 두개밖에 없는데용?
+names(fl2000)
+
+3) 변수 Bush와 Gore는 각 countr에서 George Bush와 Al Gore가 각각 획득한 투표수이다. 두 후보의 전체 득표수를 계산하여 아래에 주어진 내용으로 외부 파일에 저장하라
+
+fl2000=read.csv(URL,header=FALSE,col.names=c("Bush","Gore"))
+sum.b=sum(fl2000$Bush)
+sum.g=sum(fl2000$Gore)
+
+flout=file("C:/Temp/Output/flout.txt","w")
+cat("2000 Presidental Election in Florida","\n",file=flout)
+cat("Bush의 총 득표수 :",sum.b,"\n",file=flout)
+cat("Gore의 총 득표수 :",sum.b,"\n",file=flout)
+close(flout)
+
+4) 데이터 프레임 fl2000의 일부분을 선택하여 아래에 주어진 형태의 데이터 파일로 저장하라
+
+fl2000=read.table(URL,header=TRUE,stringsAsFactor=FALSE)
+attach(fl2000)
+xyz=cbind(county,Bush,Gore)
+write.table(xyz,"C:/Temp/Output/fl_BG.txt",quote=FALSE,row.names=FALSE)
+
+문제 10.
+
+1) 데이터 세트 dirtbike를 R로 불러와서 데이터 프레임 dirtbike에 할당하라
+dirtbike=read.csv("C:/Temp/Data/dirtbike_aug.csv")
+
+2) 데이터 세트 dirtbike는 몇 개의 변수와 관찰값으로 구성되어 있는지 확인하라
+str(dirtbike) #30개의 변수와 104개의 관찰값
+
+3) 첫번째와 일곱번째 변수 이름을 확인하라
+names(dirtbike) #"model", "displacement"
+
+4) 변수 displacement는 오토바이의 배기량을 나타내고 있다. 평균 배기량을 계산하여 아래에 주어진 내용으로 외부 파일에 저장하라
+
+attach(dirtbike)
+m.d=mean(displacement)
+
+dirtout=file("C:/Temp/Output/dirtout.txt","w")
+cat("Off road motocycles sold in USA","\n",file=dirtout)
+cat("평균 배기량:",m.d,"\n",file=dirtout)
+close(dirtout)
+
+5) 데이터 프레임 dirtbike의 일부분을 선택하여 아래에 주어진 형태의 데이터 파일로 저장하라 
+detach(dirtbike)
+dirtbike=read.csv("C:/Temp/Data/dirtbike_aug.csv",header=TRUE,stringsAsFactor=FALSE)
+
+xy=cbind(model,displacement)
+write.table(xy,"C:/Temp/Output/dirt_disp.txt",quote=FALSE,row.names=FALSE)
+
+<3장 : R에서 데이터 다루기>
+데이터 다루기 : 불려진 데이터를 분석이 가능토록 변형 및 다듬기
+
+★3.1 벡터 다루기
+
+3.1.1 새 벡터 변수 만들기
+① 벡터에 데이터 추가 및 벡터들의 결합 : 함수 c()
+
+x=c(1,2,3,4)
+x=c(x,5) #입력한 벡터에 데이터 추가
+x
+
+y=c(6,7,8)
+x=c(x,y) #벡터끼리의 결합
+x
+
+벡터에 데이터를 추가하는 작업은 대괄호를 이용할 수도 있음
+> 다만 처리 시간이 오래 걸려 추천하지 않음
+
+x
+x[length(x)+1]=9
+x
+
+② 일정한 구조를 갖는 벡터의 생성
+1)콜론(:) 연산자
+a:b a를 시작점으로 b가 초과하지 않을때까지 1씩 증가하는 수열, a>b면 1씩 감소하는 수열
+
+1:5
+-3:3
+1.5:5.4
+5:0
+
+2)함수 seq()
+
+seq(from=0,to=5) #seq(0,5),0:5와 동일 함수
+seq(0,5,by=2) #옵션 by : 증가 폭 조절
+seq(0,5,length=3) #옵션 length로 수열의 길이 지정
+
+3)함수 req()
+>rep(반복 대상 데이터, 반복 횟수)
+-반복 횟수가 하나의 숫자의 경우 : 데이터 전체를 지정된 횟수만큼 반복
+-반복 대상 데이터와 반복 횟수의 길이가 같아 일대일 대응이 되는 경우 : 데이터를 대응되는 횟수만큼 반복
+
+rep(1,times=5) #rep(1,5)와 동일 함수
+rep(c(1,3,5),2) #1,3,5를 두번 반복
+rep(c("M","F"),c(2,3)) #"M"을 2번, "F"를 3번 반복
+
+문제 1.
+다음 데이터를 생성시키기 (pg.114)
+
+1)
+seq(-5,5,by=0.2)
+
+2)
+x=seq(1,9,length=5)
+y=seq(2,10,length=5)
+xy=c(x,y)
+xy
+
+3)
+x=rep(1,1)
+y=rep(2,2)
+z=rep(3,3)
+a=rep(4,4)
+xyza=c(x,y,z,a)
+xyza
+
+4)
+rep(c(1,2,3),3)
+
+5)
+rep(c("a","b"),c(2,3))
+
+6)
+x=c("a1","a2","a3","a4","a5")
+x
+
+③벡터의 자료수정과 추가 - 추후 설명 반복
+ebay=c(88.8,88.3,90.2,93.5,95.2,94.7,99.2,99.4,101.6)
+ebay[1]
+ebay[1:4]
+ebay[c(1,5,9)]
+
+ebay[1]=88.0
+ebay #첫번째 자료 값이 변경됨
+ebay[10:13]=c(97.0,99.3,102.0,101.8) #열번째~열세번째 자료 값 추가
+ebay
+
+벡터의 연산 : 벡터와 벡터연산은 대응되는 각 구성요소끼리의 연산, 즉 벡터 단위로 이루어진다
+
+x=c(7,8,9,10)
+y=c(1,2,3,4)
+x+y
+x-y
+x*y
+x/y
+x^y
+
+※벡터와 스칼라의 연산도 동일한 개념으로 실행됨
+
+x
+x+3
+x/4
+2^x
+
+④벡터 연산의 순환법칙 : 벡터와 벡터의 연산은 대응되는 요소끼리의 연산
+
+벡터와 벡터의 연산은 대응되는 요소끼리의 연산
+만일 두 벡터이 길이가 달라 일대일 대응디 되지 않을경우?
+
+길이가 짧은 벡터를 순환반복 시켜 길이를 동일하게 만든 후 연산 수행
+c(1,2,3,4,5,6)+c(1,2,3) 
+
+긴 벡터의 길이가 짧은 벡터의 길이의 배수가 되지 않는 경우에는 두 벡터의 길이를 동일하게 만들 수 없음
+
+c(1,2,3,4)+c(1,2,3)
+
+★3.1.2 숫자형 벡터와 문자형 벡터를 위한 다양한 함수
+
+①수학관련 함수
+
+abs(-2) #절대값 계산
+sqrt(25) #제곱근 계산
+ceiling(3.475) #x값보다 작지 않은 가장 작은 정수
+floor(3.475) #x값보다 크지 않은 가장 큰 정수
+trunc(5.99) #소수점 아래 버림
+round(3.475,2) #소수점 아래 x자리로 반올림
+signif(0.00347,2) #유효수 x자리까지 반올림
+sin(1);cos(1);tan(1) #삼각함수
+asin(sin(1));acos(cos(1));atan(tan(1)) #역삼각함수
+log(2,base=2) #밑이 x인 로그함수
+log(10) #자연로그
+log10(10) #상용로그
+exp(log(10)) #지수함수, 로그함수의 역함수
+
+②통계 관련 함수
+
+x=c(1,2,3,4,10)
+mean(x) #평균
+median(x) #중위수
+range(x) #범위
+IQR(x) #사분범위(제3사분위수-제1사분위수)
+sd(x) #표준편차
+var(x) #분산
+sum(x) #총합
+min(x) #최솟값
+max(x) #최댓값
+diff(x) #차분 >??
+
+★③문자함수
+
+nchar(x) : 문자열 x를 구성하는 문자의 개수
+paste(...,sep",") : 문자열들의 결합
+substr(x,start,stop) : 문자열의 일부분 선택
+toupper(x) : 영문자 대문자로 변환
+tolower(x) : 영문자 소문자로 변환
+strsplit(x) : 문자열들의 분리
+sub(old,new,x) : 문자열 치환
+qsub(old,new,x) : 문자열 치환
+
+함수 nchar() : 문자열을 구성하고 있는 문자 개수
+
+x=c("Park","Lee","Kwon")
+nchar(x)
+
+함수 paste() : 문자열의 결합
+> 옵션 sep의 활용 (문자열 사이에 끼워넣을 문자 적용)
+
+paste("모든","사람들은","통계학을","좋아한다")
+paste("모든","사람들은","통계학을","좋아한다",sep="-")
+paste("모든","사람들은","통계학을","좋아한다",sep="")
+
+문자열+숫자의 결합도 적용가능
+
+paste("원주율은",pi,"이다")
+paste("Stat",1:3,sep="") #sep="" 결합 요소들 사이에 공백x
+
