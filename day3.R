@@ -1,3 +1,77 @@
+# factor 실습
+
+score <- c(1,3,2,4,2,1,3,5,1,3,3,3)
+class(score)
+summary(score)
+
+f_score <- factor(score)
+class(f_score)
+f_score
+summary(f_score)
+levels(f_score)
+
+
+f_score1 <- as.factor(score)
+class(f_score1)
+f_score1
+summary(f_score1)
+levels(f_score1)
+
+
+plot(score)
+plot(f_score)
+
+
+data1 <- c("월","수","토","월", "수", "화", "수", "수",
+           "목","화")
+data1
+class(data1)
+summary(data1)
+day1 <- factor(data1)
+day1
+class(day1)
+summary(day1)
+levels(day1)
+
+week.korabbname <- c("일", "월", "화",
+                     "수", "목", "금", "토")
+day2 <- factor(data1, 
+               levels=week.korabbname)
+day2
+summary(day2)
+levels(day2)
+
+
+
+btype <- factor(
+  c("A", "O", "AB", "B", "O", "A", "O"), 
+  levels=c("A", "B", "O"))
+btype
+summary(btype)
+levels(btype)
+
+
+
+gender1 <- factor(c(1,2,1,1,1,2,1,2), 
+                  levels=c(1,2), 
+                  labels=c("남성", "여성"))
+gender1
+summary(gender1)
+levels(gender1)
+
+
+g.data <- c('F', 'M', 'F', 'F', 'M')
+summary(g.data)
+summary(as.factor(g.data))
+
+gender2 <- factor(g.data, 
+                  levels=c('F','M'), 
+                  labels=c(0, 1))
+gender2
+summary(gender2)
+levels(gender2)
+
+
 # 내장 데이터셋
 data()
 iris
@@ -80,7 +154,7 @@ getwd() # get working directory, (참고) setwd('xxx')
 
 #csv파일열기
 score <- read.csv("data/score.csv") # 상대패스
-score <- read.csv("c:/kjh/Rexam/data/score.csv") # 절대패스
+score <- read.csv("c:/users/seungjun/desktop/bigdata_edu/Rexam/data/score.csv") # 절대패스
 score
 str(score)
 score$sum <- 
@@ -148,6 +222,7 @@ emp$ename=="KING"
 emp[c(F,F,F,F,F,F,F,F,T,F,F,F,
       F,F,F,F,F,F,F,F),]
 emp[emp$ename=="KING",]
+emp[emp['ename']=='KING']
 subset(emp,subset=emp$ename=="KING")
 subset(emp,emp$ename=="KING") 
 
