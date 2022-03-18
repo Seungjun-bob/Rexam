@@ -244,7 +244,10 @@ lines_ansi
 lines_utf8 <- readLines("data/sample_utf8.txt",encoding="UTF-8")
 lines_utf8
 
-df2 <- read.table("data/product_click.log", stringsAsFactors = T)
+df2 <- read.table("data/product_click.log", stringsAsFactors = T) 
+#header=T -> 첫번째행 제목으로 인식
+
 str(df2)
 head(df2)
 summary(df2$V2)
+
