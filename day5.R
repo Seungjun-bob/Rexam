@@ -398,3 +398,11 @@ funcArgs1 <- function(...) {
 funcArgs1()
 funcArgs1("SUM", "mean", "Min")
 funcArgs1("SORT", "Sort", "sort")
+funcArgs1("SORT", "diff", "Max")
+
+nv <- c()
+length(nv)
+is.null(nv)
+class(nv)
+str(nv)
+
