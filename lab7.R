@@ -98,12 +98,46 @@ func <- function() {
 }
 myExpr(func)
 
-# 문제7
-createVector1 <- function() {
-  
+# 문제6
+createVector1 <- function(...) {
+  data <- c(...)
+  if (is.null(data)){
+    return()
+  }
+  if (any(is.na(data))){
+    return(NA)
+  }
+  return(data)
 }
+createVector1(1:20)
+createVector1('a string')
+createVector1(TRUE)
+createVector1(NA)
+createVector1(NULL)
+createVector1(1,'a string', TRUE)
 
-
-
+# 문제7
+createVector2 <- function(...) {
+  num <- c()
+  char <- c()
+  logi <- c()
+  if (is.null(data)){
+    return()
+  }
+  data <- list(...)
+  for (i in data){
+    if(is.numeric(i)){
+      print(i)
+      num <- c(num, i)
+    }else if(is.character(i)){
+      char <- c(char,i)
+    }else if(is.logical(i)){
+      logi <- c(logi,i)
+    }
+  }
+  return(list(num=num,char=char,logi=logi))
+}
+createVector2(NULL)
+createVector2(2,1,"a string",TRUE)
 
 
