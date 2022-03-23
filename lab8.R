@@ -19,4 +19,3 @@ write(memo_new, file="memo_new.txt")
 date <- '1996-01-05'
 birth <- as.POSIXlt(date)
 weekdays(birth)
-       
