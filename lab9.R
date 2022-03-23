@@ -22,7 +22,7 @@ h2_title <- html_text(h2)
 h2_title
 
 # 문제5
-colors <- html_nodes(text, "ul > li:nth-child(3)")
+colors <- html_nodes(text, "ul > [style$=green]")
 html_text(colors)
 
 # 문제5
