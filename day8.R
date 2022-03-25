@@ -141,6 +141,7 @@ json_data <- content(response, type = 'text', encoding = "UTF-8")
 json_obj <- fromJSON(json_data)
 class(json_obj)
 df <- data.frame(json_obj)
+df
 View(df)
 df_new <- df[c('list.unitName', 'list.unitCode', 'list.routeName', 'list.addr', 'list.weatherContents', 'list.tempValue')]
 View(df_new)
