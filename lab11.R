@@ -56,7 +56,7 @@ json.obj <- fromJSON(json.data)
 json.obj
 
 json.df <- data.frame(json.obj)
-json.newsdf <- json.df["items.description"]
+json.newsdf <- json.df["items.title"]
 json.newsdf <- gsub("</?b>","",json.newsdf)
 json.newsdf <- gsub("&[a-z]+;","",json.newsdf)
 write(json.newsdf,"output/navernews.txt")
