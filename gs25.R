@@ -15,8 +15,8 @@ eventgoodsname <- sapply(eventgoodsnodes, function(x) {x$getElementText()})
 eventgoodsnodes <- remDr$findElements(using='css selector', '#contents > div.cnt > div.cnt_section.mt50 > div > div > div:nth-child(5) > ul > li > div > p.price > span')
 eventgoodsprice <- sapply(eventgoodsnodes, function(x) {x$getElementText()})
 
-vname <- c(unlist(eventgoodsname))
-vprice <- c(unlist(eventgoodsprice))
+goodsname <- c(unlist(eventgoodsname))
+goodsprice <- c(unlist(eventgoodsprice))
 
 repeat {
   for (i in 2:10) {               
@@ -32,8 +32,8 @@ repeat {
     eventgoodsnodes <- remDr$findElements(using='css selector', '#contents > div.cnt > div.cnt_section.mt50 > div > div > div:nth-child(5) > ul > li > div > p.price > span')
     eventgoodsprice <- sapply(eventgoodsnodes, function(x) {x$getElementText()})
     
-    vname <- c(vname, unlist(eventgoodsname))
-    vprice <- c(vprice, unlist(eventgoodsprice))
+    goodsname <- c(goodsname, unlist(eventgoodsname))
+    goodsprice <- c(goodsprice, unlist(eventgoodsprice))
   }
   
   try(nextPage<-remDr$findElement(using='css selector',
@@ -48,13 +48,13 @@ repeat {
   eventgoodsnodes <- remDr$findElements(using='css selector', '#contents > div.cnt > div.cnt_section.mt50 > div > div > div:nth-child(5) > ul > li > div > p.price > span')
   eventgoodsprice <- sapply(eventgoodsnodes, function(x) {x$getElementText()})
   
-  vname <- c(vname, unlist(eventgoodsname))
-  vprice <- c(vprice, unlist(eventgoodsprice))        
+  goodsname <- c(goodsname, unlist(eventgoodsname))
+  goodsprice <- c(goodsprice, unlist(eventgoodsprice))        
 }
 
-vprice <- gsub(',','',vprice)
-vprice <- gsub('원','',vprice)
+goodsprice <- gsub(',','',goodsprice)
+goodsprice <- gsub('원','',goodsprice)
 
-df <- data.frame(vname, vprice)
+df <- data.frame(goodsname, goodsprice)
 View(df)
 write.csv(df, file='output/gs25_twotoone.csv')
