@@ -116,7 +116,7 @@ names(freq) <- result$breaks[-1]        # 구간값을 이름으로 지정
 freq                                    # 구간별 빈도수 출력
 
 par(mfrow=c(2,2), mar=c(3,3,4,2))     # 화면 분할(2x2)               
-
+iris$Sepal.Length
 hist(iris$Sepal.Length,               # 그래프 1
      main='Sepal.Length',
      col='orange')             

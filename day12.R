@@ -78,6 +78,12 @@ exam %>%
 data(iris) # 아규먼트에 지정된 이름의 객체(데이터셋)를 로드하는 기능
 str(iris)
 iris %>% pull(Species)
+iris %>% pull(Sepal.Length)
+iris %>% pull(Sepal.Length, Species)
+iris %>% pull(-1)
+iris %>% pull(-5)
+iris %>% pull()
+
 iris %>% select(Species)
 iris %>% select_if(is.numeric) %>% head
 iris %>% select(-Sepal.Length, -Petal.Length) %>% head
@@ -95,6 +101,9 @@ iris %>% select(contains("etal")) %>% head(1)
 
 # Select columns whose name maches a regular expression
 iris %>% select(matches(".t.")) %>% head(1)
+iris %>% select(matches("L|W")) %>% head(1)
+iris %>% select(matches("\\.")) %>% head(1)
+iris %>% select(matches("^P")) %>% head(1)
 
 iris %>% select(one_of("aa", "bb", "Petal.Length", "Petal.Width")) %>% head(5) -> imsi
 
@@ -186,6 +195,14 @@ mpg %>%
   arrange(desc(mdis)) %>% 
   head(5)
 
+# rename() 과 distinct() 추가
+myiris <- iris %>% rename(sl='Sepal.Length', sw='Sepal.Width') %>% head
+myiris
+
+iris %>% select(Species)
+iris %>% distinct(Species)
+exam %>% select(class, english)
+exam %>% distinct(class, english)
 
 # 여러 데이터프레임 합치기
 
